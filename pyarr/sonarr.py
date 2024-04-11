@@ -540,19 +540,23 @@ class SonarrAPI(BaseArrAPI):
 
     # DELETE /series/{id}
     def del_series(
-        self, id_: int, delete_files: bool = False
+        self,
+        id_: int,
+        delete_files: bool = False,
+        add_exclusion: bool = False,
     ) -> Union[Response, JsonObject, dict[Any, Any]]:
         """Delete the series with the given ID
 
         Args:
             id_ (int): Database ID for series
             delete_files (bool, optional): If true series folder and files will be deleted. Defaults to False.
+            add_exclusion (bool, optional): Add deleted series to List Exclusions. Defaults to None.
 
         Returns:
             dict: Blank dictionary
         """
         # File deletion does not work
-        params = {"deleteFiles": delete_files}
+        params = {"deleteFiles": delete_files, "addExclusion": add_exclusion}
         return self._delete(f"series/{id_}", self.ver_uri, params=params)
 
     # GET /series/lookup
